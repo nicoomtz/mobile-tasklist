@@ -1,14 +1,10 @@
-import { AddTask, CustomModal } from "./components/index";
 import {
-  Button,
-  FlatList,
-  Modal,
-  StyleSheet,
-  Text,
-  TextInput,
-  TouchableOpacity,
-  View,
-} from "react-native";
+  AddTask,
+  CustomFlatList,
+  CustomModal,
+  CustomRenderItem,
+} from "./components/index";
+import { Button, StyleSheet, Text, View } from "react-native";
 
 import { useState } from "react";
 
@@ -16,41 +12,6 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: "#fff",
-  },
-  itemList: {
-    flex: 1,
-    marginVertical: 20,
-    marginHorizontal: 20,
-  },
-  itemContainer: {
-    flex: 1,
-    marginVertical: 5,
-    justifyContent: "space-between",
-    flexDirection: "row",
-    alignItems: "center",
-    marginVertical: 10,
-    backgroundColor: "#9F84BD",
-    paddingHorizontal: 10,
-    paddingVertical: 15,
-    borderRadius: 5,
-    shadowColor: "#000",
-    shadowOffset: {
-      width: 0,
-      height: 5,
-    },
-    shadowOpacity: 0.34,
-    shadowRadius: 6.27,
-
-    elevation: 10,
-  },
-  item: {
-    fontSize: 16,
-    color: "#000",
-  },
-  delete: {
-    fontSize: 18,
-    fontWeight: "bold",
-    color: "#fff",
   },
   modalContainer: {
     justifyContent: "center",
@@ -106,12 +67,17 @@ export default function App() {
   };
 
   const renderItem = ({ item }) => (
-    <View key={`item-${item.id}`} style={styles.itemContainer}>
-      <Text style={styles.item}>{item.value}</Text>
-      <TouchableOpacity onPress={() => onHandleModal(item.id)}>
-        <Text style={styles.delete}>X</Text>
-      </TouchableOpacity>
-    </View>
+    // <View key={`item-${item.id}`} style={styles.itemContainer}>
+    //   <Text style={styles.item}>{item.value}</Text>
+    //   <TouchableOpacity onPress={() => onHandleModal(item.id)}>
+    //     <Text style={styles.delete}>X</Text>
+    //   </TouchableOpacity>
+    // </View>
+    <CustomRenderItem
+      item={item}
+      onPress={() => onHandleModal(item.id)}
+      key={item.id}
+    />
   );
 
   const onHandleDeleteItem = (id) => {
@@ -132,8 +98,7 @@ export default function App() {
         textButton="Add"
         color="#4A306D"
       />
-      <FlatList
-        style={styles.itemList}
+      <CustomFlatList
         data={tasks}
         renderItem={renderItem}
         keyExtractor={(item) => item.id.toString()}
